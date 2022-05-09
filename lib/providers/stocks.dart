@@ -7,7 +7,7 @@ import '../models/company.dart';
 import '../models/stock.dart';
 import '../config.dart';
 
-class Stocks with ChangeNotifier {
+class StocksProvider with ChangeNotifier {
   List<Stock> prices = [
     Stock(name: "AAPL"),
     Stock(name: "AMZN"),
@@ -69,35 +69,6 @@ class Stocks with ChangeNotifier {
     channel.sink
         .add(jsonEncode({"type": "subscribe", "symbol": "IC MARKETS:1"}));
     channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "MSFT"}));
-  }
-
-  Future<Company> getCompanyInformation(String symbol) async {
-    final url = Uri.parse(
-        'https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=$APIKey');
-
-    try {
-      final response = await http.get(url);
-      final data = json.decode(response.body) as Map<String, dynamic>;
-
-      if (data.isEmpty) throw 'Error';
-      return Company(
-        country: data["country"],
-        currency: data["currency"],
-        exchange: data["exchange"],
-        ipo: data["ipo"],
-        marketCapitalization: data["marketCapitalization"],
-        name: data["name"],
-        phone: data["phone"],
-        shareOutstanding: data["shareOutstanding"],
-        ticker: data["ticker"],
-        weburl: data["weburl"],
-        logo: data["logo"],
-        finnhubIndustry: data["finnhubIndustry"],
-      );
-    } catch (err) {
-      print('Информация не получена: $err');
-      return null;
-    }
   }
 }
 /*

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:volga_it_otbor/models/company.dart';
-import 'package:volga_it_otbor/models/stock.dart';
-import 'package:volga_it_otbor/providers/stocks.dart';
+import 'package:volga_it_otbor/models/news.dart';
+
+import '../providers/company.dart';
 
 class DetailsScreen extends StatelessWidget {
   final String symbol;
@@ -17,12 +18,12 @@ class DetailsScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: FutureBuilder(
-        future: Provider.of<Stocks>(context, listen: false)
+        future: Provider.of<CompanyProvider>(context, listen: false)
             .getCompanyInformation(symbol),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             final company = snapshot.data as Company;
-            return Body(company);
+            return Body(company, symbol);
           }
           return Center(
             child: CircularProgressIndicator(),
@@ -34,9 +35,10 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
-  const Body(this.company);
+  const Body(this.company, this.symbol);
 
   final Company company;
+  final String symbol;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,14 @@ class Body extends StatelessWidget {
       child: Column(
         children: [
           Header(company.name, company.logo),
-          MainInformation(company)
+          Expanded(
+            child: PageView(
+              children: [
+                MainInformation(company),
+                CompanyNews(symbol),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -132,7 +141,7 @@ class MainInformation extends StatelessWidget {
               createTextInfo('Finnhub Industry', _company.finnhubIndustry),
               createTextInfo('IPO', _company.ipo),
               createTextInfo('Market Capitalization',
-                  _company.marketCapitalization.toString()+' \$'),
+                  _company.marketCapitalization.toString() + ' \$'),
               createTextInfo('Phone', _company.phone),
               createTextInfo(
                   'Share Outstanding', _company.shareOutstanding.toString()),
@@ -140,7 +149,6 @@ class MainInformation extends StatelessWidget {
             ],
           ),
         ),
-        
         Align(
           alignment: Alignment.topCenter,
           child: Text(
@@ -149,6 +157,91 @@ class MainInformation extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class CompanyNews extends StatelessWidget {
+  const CompanyNews(this.symbol, {Key key}) : super(key: key);
+
+  final String symbol;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          'News',
+          style: TextStyle(fontSize: 25),
+        ),
+        Expanded(
+          child: FutureBuilder(
+            future: Provider.of<CompanyProvider>(context, listen: false)
+                .getCompanyNews(symbol),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final news = snapshot.data as List<News>;
+                return ListView.builder(
+                  itemCount: news.length,
+                  itemBuilder: (ctx, index) => NewsCard(news[index]),
+                );
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error'));
+              }
+              return Center(child: CircularProgressIndicator());
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class NewsCard extends StatelessWidget {
+  const NewsCard(this.news, {Key key}) : super(key: key);
+  final News news;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(15),
+      padding: EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 5,
+          )
+        ],
+        color: Colors.grey[800],
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        children: [
+          Text(
+            news.headline,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          if (news.image.isNotEmpty)
+            Image.network(
+              news.image,
+              errorBuilder: (context, error, stackTrace) => Image.network(
+                  'https://pro2-bar-s3-cdn-cf1.myportfolio.com/595e16db507530aedc596bfea5b9b205/c4942518-4c81-4440-b5e6-a81ee775fccd_car_202x158.gif?h=7f6473aa96778a9138ad4bbdbcdf698d'),
+            ),
+          SizedBox(height: 10),
+          Text(news.summary),
+          Text(
+            'Source: ${news.source}',
+            textAlign: TextAlign.right,
+            style: TextStyle(color: Colors.white.withOpacity(0.5)),
+          )
+        ],
+      ),
     );
   }
 }

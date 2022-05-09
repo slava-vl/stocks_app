@@ -15,13 +15,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    Provider.of<Stocks>(context, listen: false).listenData();
+    Provider.of<StocksProvider>(context, listen: false).listenData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _data = Provider.of<Stocks>(context).prices;
+    final _data = Provider.of<StocksProvider>(context).prices;
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,

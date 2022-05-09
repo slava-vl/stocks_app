@@ -9,7 +9,7 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.wait([
       Future.delayed(Duration(seconds: 2)),
-      Provider.of<Stocks>(context, listen: false).getData(),
+      Provider.of<StocksProvider>(context, listen: false).getData(),
     ]).then((value) => Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => HomePage())));
 

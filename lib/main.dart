@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import './providers/stocks.dart';
 import './providers/theme.dart';
+import 'providers/company.dart';
 import 'screens/home_page.dart';
 import 'screens/splach_screen.dart';
 
@@ -27,7 +28,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (ctx) => Stocks()),
+        ChangeNotifierProvider(create: (ctx) => StocksProvider()),
+        ChangeNotifierProvider(create: (ctx) => CompanyProvider()),
         ChangeNotifierProvider(create: (ctx) => CustomTheme())
       ],
       child: MaterialApp(
