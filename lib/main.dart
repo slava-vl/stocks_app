@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import './providers/stocks.dart';
 import './providers/theme.dart';
-import './screens/home_page_screen.dart';
+import 'screens/home_page.dart';
+import 'screens/splach_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,7 +34,7 @@ class _MyAppState extends State<MyApp> {
         themeMode: theme.currentTheme,
         theme: CustomTheme.lightTheme,
         darkTheme: CustomTheme.darkTheme,
-        home: MyHomePage(),
+        home: SplashScreen(),
       ),
     );
   }

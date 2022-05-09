@@ -3,25 +3,20 @@ import 'package:flutter/material.dart';
 
 import '../providers/theme.dart';
 import '../providers/stocks.dart';
-import '../widgets/stock_widget.dart';
+import '../widgets/stock_list_item.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage();
+class HomePage extends StatefulWidget {
+  const HomePage();
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  var _isInit = true;
+class _HomePageState extends State<HomePage> {
   @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      Provider.of<Stocks>(context, listen: false).getData().then(
-          (value) => Provider.of<Stocks>(context, listen: false).listenData());
-      _isInit = false;
-    }
-    super.didChangeDependencies();
+  void initState() {
+    Provider.of<Stocks>(context, listen: false).listenData();
+    super.initState();
   }
 
   @override
@@ -29,6 +24,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final _data = Provider.of<Stocks>(context).prices;
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Stocks',
             style: Theme.of(context).textTheme.headline6,

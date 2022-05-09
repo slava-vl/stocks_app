@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../models/company.dart';
 import '../models/stock.dart';
 import '../config.dart';
 
@@ -16,20 +17,6 @@ class Stocks with ChangeNotifier {
   ];
 
   Future<bool> getData() async {
-    final url = Uri.parse(
-        'https://finnhub.io/api/v1/stock/symbol?exchange=US&mic=XNYS&token=$APIKey');
-    final response = await http.get(url);
-    
-    final data = jsonDecode(response.body) as List<dynamic>;
-    for(int i=0;i<20;i++){
-      print(data[i]);
-    }
-    /*data.forEach((element) {
-      print(element);
-      prices.add(Stock(
-          name: element['displaySymbol'], fullName: element['description']));
-    });*/
-
     prices.forEach((stock) async {
       final url = Uri.parse(
           'https://finnhub.io/api/v1/quote?symbol=${stock.name}&token=$APIKey');
@@ -73,7 +60,8 @@ class Stocks with ChangeNotifier {
     );
   }
 
-  void onOpen(WebSocketChannel channel) {//переписать
+  void onOpen(WebSocketChannel channel) {
+    //переписать
     channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "AAPL"}));
     channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "AMZN"}));
     channel.sink
@@ -82,4 +70,40 @@ class Stocks with ChangeNotifier {
         .add(jsonEncode({"type": "subscribe", "symbol": "IC MARKETS:1"}));
     channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "MSFT"}));
   }
+
+  Future<Company> getCompanyInformation(String symbol) async {
+    final url = Uri.parse(
+        'https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=$APIKey');
+
+    try {
+      final response = await http.get(url);
+      final data = json.decode(response.body) as Map<String, dynamic>;
+
+      if (data.isEmpty) throw 'Error';
+      return Company(
+        country: data["country"],
+        currency: data["currency"],
+        exchange: data["exchange"],
+        ipo: data["ipo"],
+        marketCapitalization: data["marketCapitalization"],
+        name: data["name"],
+        phone: data["phone"],
+        shareOutstanding: data["shareOutstanding"],
+        ticker: data["ticker"],
+        weburl: data["weburl"],
+        logo: data["logo"],
+        finnhubIndustry: data["finnhubIndustry"],
+      );
+    } catch (err) {
+      print('Информация не получена: $err');
+      return null;
+    }
+  }
 }
+/*
+Company Profile 2
+Company News
+IPO Calendar
+Stock Candles
+
+*/
