@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:volga_it_otbor/screens/home_page.dart';
+import 'package:volga_it_otbor/screens/home_page/home_page.dart';
 
 import '../providers/stocks.dart';
 

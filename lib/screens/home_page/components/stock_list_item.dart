@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../config.dart';
-import '../models/stock.dart';
-import '../screens/details_screen.dart';
+import '../../../config.dart';
+import '../../../models/stock.dart';
+import '../../details_screen/details_screen.dart';
 
 class StockWidget extends StatelessWidget {
   final Stock stock;
@@ -15,8 +15,8 @@ class StockWidget extends StatelessWidget {
         ? ((stock.lastPrice - stock.price) / stock.price * 100)
         : 0;
     return GestureDetector(
-      onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => DetailsScreen(stock.name))),
+      onTap: () => Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => DetailsScreen(stock.name))),
       child: Card(
         margin: const EdgeInsets.all(standartPadding),
         child: Padding(
@@ -57,9 +57,9 @@ class StockWidget extends StatelessWidget {
                     ],
                   ),
                   Text(stock.lastPrice != null
-                      ? stock.lastPrice.toStringAsFixed(2)+' \$'
+                      ? stock.lastPrice.toStringAsFixed(2) + ' \$'
                       : stock.price != null
-                          ? stock.price.toStringAsFixed(2)+' \$'
+                          ? stock.price.toStringAsFixed(2) + ' \$'
                           : '0.0')
                 ],
               )

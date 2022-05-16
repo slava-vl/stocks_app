@@ -3,8 +3,6 @@ import 'package:provider/provider.dart';
 
 import './providers/stocks.dart';
 import './providers/theme.dart';
-import 'providers/company.dart';
-import 'screens/home_page.dart';
 import 'screens/splach_screen.dart';
 
 void main() => runApp(MyApp());
@@ -29,7 +27,6 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => StocksProvider()),
-        ChangeNotifierProvider(create: (ctx) => CompanyProvider()),
         ChangeNotifierProvider(create: (ctx) => CustomTheme())
       ],
       child: MaterialApp(

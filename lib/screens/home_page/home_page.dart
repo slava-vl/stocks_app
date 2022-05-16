@@ -1,9 +1,9 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-import '../providers/theme.dart';
-import '../providers/stocks.dart';
-import '../widgets/stock_list_item.dart';
+import '../../providers/theme.dart';
+import '../../providers/stocks.dart';
+import 'components/stock_list_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage();

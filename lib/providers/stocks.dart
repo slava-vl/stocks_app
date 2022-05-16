@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
+import 'package:volga_it_otbor/api/api.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-import '../models/company.dart';
 import '../models/stock.dart';
 import '../config.dart';
 
@@ -35,9 +35,7 @@ class StocksProvider with ChangeNotifier {
   }
 
   void listenData() {
-    final _channel = WebSocketChannel.connect(
-      Uri.parse('wss://ws.finnhub.io?token=$APIKey'),
-    );
+    final _channel = Api.connectToStockSocket();
 
     onOpen(_channel);
 
@@ -76,5 +74,4 @@ Company Profile 2
 Company News
 IPO Calendar
 Stock Candles
-
 */

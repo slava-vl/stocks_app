@@ -2,12 +2,19 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
 import 'package:volga_it_otbor/models/news.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../models/company.dart';
 import '../config.dart';
 
-class CompanyProvider with ChangeNotifier {
-  Future<Company> getCompanyInformation(String symbol) async {
+class Api {
+  static WebSocketChannel connectToStockSocket() {
+    return WebSocketChannel.connect(
+      Uri.parse('wss://ws.finnhub.io?token=$APIKey'),
+    );
+  }
+
+  static Future<Company> getCompanyInformation(String symbol) async {
     final url = Uri.parse(
         'https://finnhub.io/api/v1/stock/profile2?symbol=$symbol&token=$APIKey');
 
@@ -36,7 +43,8 @@ class CompanyProvider with ChangeNotifier {
     }
   }
 
-  Future<List<News>> getCompanyNews(String symbol) async {
+  static Future<List<News>> getCompanyNews(
+      String symbol, String from, String to) async {
     final url = Uri.parse(
         'https://finnhub.io/api/v1/company-news?symbol=$symbol&from=2022-04-01&to=2022-05-09&token=$APIKey');
 
@@ -48,7 +56,8 @@ class CompanyProvider with ChangeNotifier {
       List<News> loadedData = [];
       data.forEach((element) {
         loadedData.add(News(
-          dateTime: DateTime.fromMillisecondsSinceEpoch(element['datetime'] * 1000),
+          dateTime:
+              DateTime.fromMillisecondsSinceEpoch(element['datetime'] * 1000),
           headline: element['headline'],
           id: element['id'],
           image: element['image'],
