@@ -11,9 +11,13 @@ class StocksProvider with ChangeNotifier {
   List<Stock> prices = [
     Stock(name: "AAPL"),
     Stock(name: "AMZN"),
-    Stock(name: "BINANCE:BTCUSDT"),
-    Stock(name: "IC MARKETS:1"),
     Stock(name: "MSFT"),
+    Stock(name: "GOOGL"),
+    Stock(name: "TSLA"),
+    Stock(name: "FB"),
+    Stock(name: "NVDA"),
+    Stock(name: "V"),
+    Stock(name: "KO"),
   ];
 
   Future<bool> getData() async {
@@ -23,16 +27,24 @@ class StocksProvider with ChangeNotifier {
       try {
         final response = await http.get(url);
         if (response.body != null) {
-          stock.price = jsonDecode(response.body)['o'];
+          stock.price = jsonDecode(response.body)['o']*1.0;
           notifyListeners();
         }
       } catch (err) {
+        print(err);
         return false;
       }
     });
 
     return true;
   }
+
+  List<Stock> get interesting => prices
+      .where((element) =>
+          element.name == 'AMZN' ||
+          element.name == 'MSFT' ||
+          element.name == 'AAPL')
+      .toList();
 
   void listenData() {
     final _channel = Api.connectToStockSocket();
@@ -46,9 +58,7 @@ class StocksProvider with ChangeNotifier {
         if (resp != null) {
           resp.forEach((element) {
             loadedData.firstWhere((el) => el.name == element['s']).lastPrice =
-                double.parse(
-              element['p'].toString(),
-            );
+                element['p'] * 1.0;
           });
           prices = loadedData;
           notifyListeners();
@@ -59,14 +69,9 @@ class StocksProvider with ChangeNotifier {
   }
 
   void onOpen(WebSocketChannel channel) {
-    //переписать
-    channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "AAPL"}));
-    channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "AMZN"}));
-    channel.sink
-        .add(jsonEncode({"type": "subscribe", "symbol": "BINANCE:BTCUSDT"}));
-    channel.sink
-        .add(jsonEncode({"type": "subscribe", "symbol": "IC MARKETS:1"}));
-    channel.sink.add(jsonEncode({"type": "subscribe", "symbol": "MSFT"}));
+    prices.forEach((element) {
+      channel.sink.add(jsonEncode({"type": "subscribe", "symbol": element.name}));
+    });
   }
 }
 /*

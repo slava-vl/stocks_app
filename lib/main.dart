@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:volga_it_otbor/providers/filter_bar_service.dart';
+import 'package:volga_it_otbor/providers/market_news_service.dart';
 
 import './providers/stocks.dart';
 import './providers/theme.dart';
@@ -27,7 +29,9 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => StocksProvider()),
-        ChangeNotifierProvider(create: (ctx) => CustomTheme())
+        ChangeNotifierProvider(create: (ctx) => CustomTheme()),
+        ChangeNotifierProvider(create: (ctx) => FilterBarService()),
+        ChangeNotifierProvider(create: (ctx) => MarketNewsService()),
       ],
       child: MaterialApp(
         themeMode: theme.currentTheme,

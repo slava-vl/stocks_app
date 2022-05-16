@@ -1,8 +1,13 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:volga_it_otbor/providers/filter_bar_service.dart';
+import 'package:volga_it_otbor/screens/home_page/components/filter_bar.dart';
+import 'package:volga_it_otbor/screens/home_page/components/market_news.dart';
+import 'package:volga_it_otbor/screens/home_page/components/stocks_pager.dart';
 
 import '../../providers/theme.dart';
 import '../../providers/stocks.dart';
+import 'components/custom_app_bar.dart';
 import 'components/stock_list_item.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,24 +28,46 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final _data = Provider.of<StocksProvider>(context).prices;
     return Scaffold(
-      appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text(
-            'Stocks',
-            style: Theme.of(context).textTheme.headline6,
-          ),
-          actions: [
-            IconButton(
-              onPressed: () {
-                setState(() {
-                  theme.toggleTheme();
-                });
-              },
-              icon: Icon(Icons.wb_sunny_rounded),
-            )
-          ]),
-      body: ListView(
-        children: [..._data.map((e) => StockWidget(e)).toList()],
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomAppBar(),
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 30, bottom: 10),
+              child: Text(
+                'Interesting',
+                style: TextStyle(
+                  color: Colors.white54,
+                  fontFamily: 'Poppins',
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            StocksPager(),
+            const SizedBox(height: 5),
+            Expanded(
+              child: Column(
+                children: [
+                  FilterBar(),
+                  Expanded(
+                    child: Consumer<FilterBarService>(
+                      builder: (context, filterService, child) =>
+                          filterService.selectedFilter == 'Most Popular'
+                              ? ListView(
+                                physics: BouncingScrollPhysics(),
+                                  children:
+                                      _data.map((e) => StockWidget(e)).toList(),
+                                )
+                              : MarketNews(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -17,24 +17,28 @@ class StockWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
           MaterialPageRoute(builder: (context) => DetailsScreen(stock.name))),
-      child: Card(
+      child: Container(
+        color: Colors.grey.shade900.withOpacity(0.6),
         margin: const EdgeInsets.all(standartPadding),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: standartPadding * 0.5, horizontal: standartPadding),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
+        padding: const EdgeInsets.symmetric(
+            vertical: standartPadding * 0.5, horizontal: standartPadding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              child: Text(
                 stock.name,
                 style: TextStyle(fontSize: 20),
               ),
-              Column(
-                children: [
-                  Row(
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                RichText(
+                  text: TextSpan(
                     children: [
-                      Text(
-                        priceChange.toStringAsFixed(2),
+                      TextSpan(
+                        text: priceChange.toStringAsFixed(2),
                         style: TextStyle(
                           fontSize: 20,
                           color: priceChange >= 0
@@ -44,7 +48,8 @@ class StockWidget extends StatelessWidget {
                               : Colors.red,
                         ),
                       ),
-                      Icon(
+                      WidgetSpan(
+                          child: Icon(
                         priceChange >= 0
                             ? Icons.arrow_circle_up
                             : Icons.arrow_circle_down,
@@ -53,18 +58,18 @@ class StockWidget extends StatelessWidget {
                                 ? Colors.green
                                 : Colors.yellow
                             : Colors.red,
-                      )
+                      ))
                     ],
                   ),
-                  Text(stock.lastPrice != null
-                      ? stock.lastPrice.toStringAsFixed(2) + ' \$'
-                      : stock.price != null
-                          ? stock.price.toStringAsFixed(2) + ' \$'
-                          : '0.0')
-                ],
-              )
-            ],
-          ),
+                ),
+                Text(stock.lastPrice != null
+                    ? stock.lastPrice.toStringAsFixed(2) + ' \$'
+                    : stock.price != null
+                        ? stock.price.toStringAsFixed(2) + ' \$'
+                        : '0.0')
+              ],
+            )
+          ],
         ),
       ),
     );

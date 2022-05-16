@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
+import 'package:volga_it_otbor/models/market_news_model.dart';
 import 'package:volga_it_otbor/models/news.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -56,6 +57,38 @@ class Api {
       List<News> loadedData = [];
       data.forEach((element) {
         loadedData.add(News(
+          dateTime:
+              DateTime.fromMillisecondsSinceEpoch(element['datetime'] * 1000),
+          headline: element['headline'],
+          id: element['id'],
+          image: element['image'],
+          source: element['source'],
+          summary: element['summary'],
+          url: element['url'],
+        ));
+      });
+
+      return loadedData;
+    } catch (err) {
+      print('Информация не получена: $err');
+      throw (err);
+    }
+  }
+
+  static Future<List<MarketNewsModel>> getMarketNews() async {
+    final url = Uri.parse(
+        'https://finnhub.io/api/v1/news?category=general&token=$APIKey');
+
+    try {
+      final response = await http.get(url);
+      final data = json.decode(response.body) as List<dynamic>;
+      if (data.isEmpty) throw null;
+
+      List<MarketNewsModel> loadedData = [];
+      data.forEach((element) {
+        loadedData.add(MarketNewsModel(
+          category: element['category'],
+          related: element['related'],
           dateTime:
               DateTime.fromMillisecondsSinceEpoch(element['datetime'] * 1000),
           headline: element['headline'],
