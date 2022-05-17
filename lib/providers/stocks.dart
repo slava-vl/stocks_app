@@ -8,6 +8,7 @@ import '../models/stock.dart';
 import '../config.dart';
 
 class StocksProvider with ChangeNotifier {
+  WebSocketChannel _channel;
   List<Stock> prices = [
     Stock(name: "AAPL"),
     Stock(name: "AMZN"),
@@ -17,7 +18,16 @@ class StocksProvider with ChangeNotifier {
     Stock(name: "FB"),
     Stock(name: "NVDA"),
     Stock(name: "V"),
+    Stock(name: "DIS"),
+    Stock(name: "NKE"),
+    Stock(name: "INTC"),
+    Stock(name: "TM"),
     Stock(name: "KO"),
+    Stock(name: "PEP"),
+    Stock(name: "BABA"),
+    Stock(name: "WMT"),
+    Stock(name: "MA"),
+    Stock(name: "XOM")
   ];
 
   Future<bool> getData() async {
@@ -27,7 +37,8 @@ class StocksProvider with ChangeNotifier {
       try {
         final response = await http.get(url);
         if (response.body != null) {
-          stock.price = jsonDecode(response.body)['o']*1.0;
+          stock.lastPrice = jsonDecode(response.body)['c'] * 1.0;
+          stock.price = jsonDecode(response.body)['o'] * 1.0;
           notifyListeners();
         }
       } catch (err) {
@@ -47,9 +58,7 @@ class StocksProvider with ChangeNotifier {
       .toList();
 
   void listenData() {
-    final _channel = Api.connectToStockSocket();
-
-    onOpen(_channel);
+    _channel = Api.connectToStockSocket();
 
     _channel.stream.listen(
       (data) {
@@ -68,15 +77,11 @@ class StocksProvider with ChangeNotifier {
     );
   }
 
-  void onOpen(WebSocketChannel channel) {
-    prices.forEach((element) {
-      channel.sink.add(jsonEncode({"type": "subscribe", "symbol": element.name}));
-    });
+  void listenStock(String symbol) {
+    _channel.sink.add(jsonEncode({"type": "subscribe", "symbol": symbol}));
+  }
+
+  void notListenStock(String symbol) {
+    _channel.sink.add(jsonEncode({"type": "unsubscribe", "symbol": symbol}));
   }
 }
-/*
-Company Profile 2
-Company News
-IPO Calendar
-Stock Candles
-*/

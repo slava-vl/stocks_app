@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../config.dart';
 import '../../../models/stock.dart';
+import '../../../providers/stocks.dart';
 import '../../details_screen/details_screen.dart';
 
-class StockWidget extends StatelessWidget {
+class StockWidget extends StatefulWidget {
   final Stock stock;
 
-  const StockWidget(this.stock);
+  StockWidget(this.stock);
+
+  @override
+  State<StockWidget> createState() => _StockWidgetState();
+}
+
+class _StockWidgetState extends State<StockWidget> {
+  var provider;
+  @override
+  void initState() {
+    provider = Provider.of<StocksProvider>(context, listen: false);
+    provider.listenStock(widget.stock.name);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    provider.notListenStock(widget.stock.name);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final priceChange = stock.lastPrice != null && stock.price != null
-        ? ((stock.lastPrice - stock.price) / stock.price * 100)
-        : 0;
+    final priceChange =
+        widget.stock.lastPrice != null && widget.stock.price != null
+            ? ((widget.stock.lastPrice - widget.stock.price) /
+                widget.stock.price *
+                100)
+            : 0;
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => DetailsScreen(stock.name))),
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => DetailsScreen(widget.stock.name))),
       child: Container(
         color: Colors.grey.shade900.withOpacity(0.6),
         margin: const EdgeInsets.all(standartPadding),
@@ -27,7 +51,7 @@ class StockWidget extends StatelessWidget {
           children: [
             Container(
               child: Text(
-                stock.name,
+                widget.stock.name,
                 style: TextStyle(fontSize: 20),
               ),
             ),
@@ -62,10 +86,10 @@ class StockWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text(stock.lastPrice != null
-                    ? stock.lastPrice.toStringAsFixed(2) + ' \$'
-                    : stock.price != null
-                        ? stock.price.toStringAsFixed(2) + ' \$'
+                Text(widget.stock.lastPrice != null
+                    ? widget.stock.lastPrice.toStringAsFixed(2) + ' \$'
+                    : widget.stock.price != null
+                        ? widget.stock.price.toStringAsFixed(2) + ' \$'
                         : '0.0')
               ],
             )

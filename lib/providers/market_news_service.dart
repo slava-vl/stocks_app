@@ -7,6 +7,9 @@ class MarketNewsService with ChangeNotifier {
   List<MarketNewsModel> marketNews;
 
   MarketNewsService() {
-    Api.getMarketNews().then((value) => marketNews = value);
+    Api.getMarketNews().then((value) {
+      marketNews = value;
+      notifyListeners();
+    });
   }
 }
