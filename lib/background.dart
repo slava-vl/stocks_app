@@ -20,7 +20,10 @@ class Background extends StatelessWidget {
             width: deviceSize.width * 0.1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(80.0),
-              color: AppColors.backgroundYellow,
+              gradient: RadialGradient(
+                radius: 3,
+                colors: [AppColors.backgroundYellow, AppColors.black],
+              ),
             ),
           ),
         ),
@@ -30,8 +33,12 @@ class Background extends StatelessWidget {
             height: deviceSize.height * 0.2,
             width: deviceSize.width * 0.2,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(80.0),
-                color: AppColors.backgroundGreen),
+              borderRadius: BorderRadius.circular(80.0),
+              gradient: RadialGradient(
+                radius: 5,
+                colors: [AppColors.backgroundGreen, AppColors.black],
+              ),
+            ),
           ),
         ),
         Align(
@@ -40,8 +47,12 @@ class Background extends StatelessWidget {
             height: deviceSize.height * 0.2,
             width: deviceSize.width * 0.2,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(80.0),
-                color: AppColors.backgroundRed),
+              borderRadius: BorderRadius.circular(80.0),
+              gradient: RadialGradient(
+                radius: 3,
+                colors: [AppColors.backgroundRed, AppColors.black],
+              ),
+            ),
           ),
         ),
         BackdropFilter(
