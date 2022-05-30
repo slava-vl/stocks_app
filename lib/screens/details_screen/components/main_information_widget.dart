@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:volga_it_otbor/config.dart';
 
 import '../../../models/company.dart';
 
@@ -8,33 +9,52 @@ class MainInformation extends StatelessWidget {
   const MainInformation(this._company, {Key key}) : super(key: key);
 
   Widget createTextInfo(String title, String value) {
-    return Row(
-      children: [
-        Text(title),
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Divider(),
-        )),
-        Text(value),
-      ],
+    final textStyle = TextStyle(color: Colors.white, fontSize: 15, fontFamily: 'Poppins');
+    return Expanded(
+      child: Row(
+        children: [
+          Container(
+            child: Text(
+              title,
+              maxLines:1,
+              overflow: TextOverflow.clip,
+              style: textStyle,
+            ),
+          ),
+          Expanded(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Divider(color: Colors.white,),
+          )),
+          Container(
+            child: Text(
+              value,
+              maxLines:1,
+              overflow: TextOverflow.clip,
+              style: textStyle,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final _theme = Theme.of(context);
     return Column(
       children: [
         Text(
           'Main Information',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.white,
+          ),
         ),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: _theme.primaryColor,
+                color: AppColors.orange,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.5),

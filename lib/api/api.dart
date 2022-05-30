@@ -28,10 +28,10 @@ class Api {
         currency: data["currency"],
         exchange: data["exchange"],
         ipo: data["ipo"],
-        marketCapitalization: data["marketCapitalization"],
+        marketCapitalization: data["marketCapitalization"]*1.0,
         name: data["name"],
         phone: data["phone"],
-        shareOutstanding: data["shareOutstanding"],
+        shareOutstanding: data["shareOutstanding"]*1.0,
         ticker: data["ticker"],
         weburl: data["weburl"],
         logo: data["logo"],
@@ -39,7 +39,7 @@ class Api {
       );
     } catch (err) {
       print('Информация не получена: $err');
-      return null;
+      throw err;
     }
   }
 

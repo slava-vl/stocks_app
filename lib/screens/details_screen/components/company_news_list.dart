@@ -19,7 +19,7 @@ class CompanyNews extends StatelessWidget {
       children: [
         Text(
           'News',
-          style: TextStyle(fontSize: 25),
+          style: TextStyle(fontSize: 25, color: Colors.white),
         ),
         Expanded(
           child: FutureBuilder(
@@ -32,7 +32,7 @@ class CompanyNews extends StatelessWidget {
                   itemBuilder: (ctx, index) => NewsCard(news[index]),
                 );
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error'));
+                return Center(child: Text('Error', style: TextStyle(color: Colors.white),));
               }
               return Center(child: CircularProgressIndicator());
             },

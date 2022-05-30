@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:volga_it_otbor/config.dart';
 
 import '../../../models/news.dart';
 
@@ -8,7 +9,6 @@ class NewsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.all(15),
       padding: EdgeInsets.all(15),
@@ -19,7 +19,7 @@ class NewsCard extends StatelessWidget {
             blurRadius: 5,
           )
         ],
-        color: _theme.cardColor,
+        color: AppColors.orange,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -46,13 +46,12 @@ class NewsCard extends StatelessWidget {
           Text(
             'Source: ${news.source}',
             textAlign: TextAlign.right,
-            style: TextStyle(color: _theme.textTheme.subtitle1.color.withOpacity(0.5)),
+            style: TextStyle(color: Colors.black),
           ),
           Text(
             'Date: ${news.dateTime.day}.${news.dateTime.month}.${news.dateTime.year}',
-            style: TextStyle(color: _theme.textTheme.subtitle1.color.withOpacity(0.5)),
+            style: TextStyle(color: Colors.black),
           ),
-          IconButton(onPressed: (){}, icon: Icon(Icons.translate))
         ],
       ),
     );
