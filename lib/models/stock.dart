@@ -6,8 +6,8 @@ class Stock {
 
   Stock({
     this.fullName,
-    this.name,
-    this.lastPrice,
-    this.price,
+    this.name='Name',
+    this.lastPrice=0.0,
+    this.price=0.0,
   });
 }

@@ -1,11 +1,11 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:volga_it_otbor/models/stock.dart';
 import 'package:volga_it_otbor/providers/filter_bar_service.dart';
 import 'package:volga_it_otbor/screens/home_page/components/filter_bar.dart';
 import 'package:volga_it_otbor/screens/home_page/components/market_news.dart';
 import 'package:volga_it_otbor/screens/home_page/components/stocks_pager.dart';
 
-//import '../../providers/theme.dart';
 import '../../background.dart';
 import '../../config.dart';
 import '../../providers/stocks.dart';
@@ -21,14 +21,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
-  void initState() {
-    Provider.of<StocksProvider>(context, listen: false).listenData();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final _data = Provider.of<StocksProvider>(context).prices;
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -38,7 +31,10 @@ class _HomePageState extends State<HomePage> {
             children: [
               CustomAppBar(),
               Padding(
-                padding: const EdgeInsets.only(top: standartPadding*2, left: standartPadding*3, bottom: standartPadding),
+                padding: const EdgeInsets.only(
+                    top: standartPadding * 2,
+                    left: standartPadding * 3,
+                    bottom: standartPadding),
                 child: Text(
                   'Interesting',
                   style: TextStyle(
@@ -58,11 +54,7 @@ class _HomePageState extends State<HomePage> {
                       child: Consumer<FilterBarService>(
                         builder: (context, filterService, child) =>
                             filterService.selectedFilter == 'Most Popular'
-                                ? ListView(
-                                    physics: BouncingScrollPhysics(),
-                                    children:
-                                        _data.map((e) => StockWidget(e)).toList(),
-                                  )
+                                ? StockList(stocks: Provider.of<StocksProvider>(context).prices,)
                                 : MarketNews(),
                       ),
                     ),
@@ -73,6 +65,59 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class StockList extends StatefulWidget {
+  final List<Stock> stocks;
+
+  const StockList({Key key, this.stocks}) : super(key: key);
+  @override
+  State<StockList> createState() => _StockListState();
+}
+
+class _StockListState extends State<StockList> {
+  final GlobalKey<AnimatedListState> _key = GlobalKey();
+  List<Stock> insertedItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    Provider.of<StocksProvider>(context, listen: false).listenData();
+
+    var future = Future(() {});
+    for (var i = 0; i < widget.stocks.length; i++) {
+      future = future.then((_) {
+        return Future.delayed(const Duration(milliseconds: 125), () {
+          insertedItems.add(widget.stocks[i]);
+          _key.currentState.insertItem(i);
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedList(
+      key: _key,
+      scrollDirection: Axis.vertical,
+      initialItemCount: insertedItems.length,
+      physics: BouncingScrollPhysics(),
+      itemBuilder: (context, index, animation) {
+        return SlideTransition(
+            position: Tween(
+              begin: const Offset(0, 0.2),
+              end: const Offset(0, 0),
+            ).animate(
+                CurvedAnimation(parent: animation, curve: Curves.easeInOut)),
+            child: FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+                ),
+                child: StockWidget(widget.stocks[index])));
+      },
     );
   }
 }

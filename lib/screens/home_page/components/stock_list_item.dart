@@ -32,12 +32,13 @@ class _StockWidgetState extends State<StockWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final priceChange =
-        widget.stock.lastPrice != null && widget.stock.price != null
-            ? ((widget.stock.lastPrice - widget.stock.price) /
-                widget.stock.price *
-                100)
-            : 0;
+    final priceChange = widget.stock.lastPrice != null &&
+            widget.stock.price != null &&
+            widget.stock.price != 0.00
+        ? ((widget.stock.lastPrice - widget.stock.price) /
+            widget.stock.price *
+            100)
+        : 0.00;
     final changeColor = priceChange >= 0
         ? priceChange > 0
             ? AppColors.green
@@ -106,12 +107,16 @@ class _StockWidgetState extends State<StockWidget> {
                               padding: const EdgeInsets.only(
                                   bottom: standartPadding * 0.4,
                                   left: standartPadding * 0.4),
-                              child: Image.asset(
-                                priceChange >= 0
-                                    ? 'assets/images/row_up.png'
-                                    : 'assets/images/row_down.png',
-                                width: 20,
-                              ),
+                              child: priceChange != 0
+                                  ? Image.asset(
+                                      priceChange > 0
+                                          ? 'assets/images/row_up.png'
+                                          : 'assets/images/row_down.png',
+                                      width: 20)
+                                  : Icon(
+                                      Icons.circle,
+                                      color: AppColors.orange,
+                                    ),
                             ),
                           ),
                         ],
