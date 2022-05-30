@@ -32,19 +32,7 @@ class StocksProvider with ChangeNotifier {
 
   Future<bool> getData() async {
     prices.forEach((stock) async {
-      final url = Uri.parse(
-          'https://finnhub.io/api/v1/quote?symbol=${stock.name}&token=$apiKey');
-      try {
-        final response = await http.get(url);
-        if (response.body != null) {
-          stock.lastPrice = jsonDecode(response.body)['c'] * 1.0;
-          stock.price = jsonDecode(response.body)['o'] * 1.0;
-          notifyListeners();
-        }
-      } catch (err) {
-        print(err);
-        return false;
-      }
+      stock = await Api.getStockInfo(stock);
     });
 
     return true;

@@ -6,8 +6,9 @@ import '../apiKey.dart';
 import '../models/market_news_model.dart';
 import '../models/news.dart';
 import '../models/company.dart';
+import '../models/stock.dart';
 
-class Api {
+abstract class Api {
   static WebSocketChannel connectToStockSocket() {
     return WebSocketChannel.connect(
       Uri.parse('wss://ws.finnhub.io?token=$apiKey'),
@@ -28,10 +29,10 @@ class Api {
         currency: data['currency'],
         exchange: data['exchange'],
         ipo: data['ipo'],
-        marketCapitalization: data['marketCapitalization']*1.0,
+        marketCapitalization: data['marketCapitalization'] * 1.0,
         name: data['name'],
         phone: data['phone'],
-        shareOutstanding: data['shareOutstanding']*1.0,
+        shareOutstanding: data['shareOutstanding'] * 1.0,
         ticker: data['ticker'],
         weburl: data['weburl'],
         logo: data['logo'],
@@ -102,6 +103,21 @@ class Api {
       return loadedData;
     } catch (err) {
       print('Информация не получена: $err');
+      rethrow;
+    }
+  }
+
+  static Future<Stock> getStockInfo(Stock stock) async {
+    final url = Uri.parse(
+        'https://finnhub.io/api/v1/quote?symbol=${stock.name}&token=$apiKey');
+    try {
+      final response = await http.get(url);
+      if (response.body != null) {
+        stock.lastPrice = jsonDecode(response.body)['c'] * 1.0;
+        stock.price = jsonDecode(response.body)['o'] * 1.0;
+      }
+      return stock;
+    } catch (err) {
       rethrow;
     }
   }
