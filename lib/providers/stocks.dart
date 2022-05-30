@@ -33,6 +33,7 @@ class StocksProvider with ChangeNotifier {
   Future<bool> getData() async {
     prices.forEach((stock) async {
       stock = await Api.getStockInfo(stock);
+      notifyListeners();
     });
 
     return true;
@@ -47,9 +48,10 @@ class StocksProvider with ChangeNotifier {
 
   void listenData() {
     _channel = Api.connectToStockSocket();
-
+    print('listen');
     _channel.stream.listen(
       (data) {
+        print(data);
         final resp = jsonDecode(data)['data'] as List<dynamic>;
         List<Stock> loadedData = [...prices];
         if (resp != null) {

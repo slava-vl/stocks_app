@@ -22,8 +22,6 @@ class _StocksPagerState extends State<StocksPager> {
   @override
   void initState() {
     controller = PageController(initialPage: 0);
-
-    pages = Provider.of<StocksProvider>(context, listen: false).interesting;
     super.initState();
   }
 
@@ -35,6 +33,7 @@ class _StocksPagerState extends State<StocksPager> {
 
   @override
   Widget build(BuildContext context) {
+    pages = Provider.of<StocksProvider>(context).interesting;
     return Container(
       height: 120,
       child: Column(
@@ -65,7 +64,8 @@ class _StocksPagerState extends State<StocksPager> {
                               Image.asset('assets/images/BG.png'),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(standartPadding*2),
+                                  padding:
+                                      const EdgeInsets.all(standartPadding * 2),
                                   child: Row(
                                     children: [
                                       Text(
@@ -80,7 +80,8 @@ class _StocksPagerState extends State<StocksPager> {
                                       Spacer(),
                                       Container(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: standartPadding, vertical: standartPadding/2),
+                                            horizontal: standartPadding,
+                                            vertical: standartPadding / 2),
                                         decoration: BoxDecoration(
                                             color: currentStock.lastPrice !=
                                                         null &&
@@ -94,10 +95,8 @@ class _StocksPagerState extends State<StocksPager> {
                                                 BorderRadius.circular(20)),
                                         child: Text(
                                           currentStock.lastPrice != null
-                                              ? '\$${currentStock.lastPrice
-                                                      .toStringAsFixed(2)}'
-                                              : '\$${currentStock.price
-                                                      .toStringAsFixed(2)}',
+                                              ? '\$${currentStock.lastPrice.toStringAsFixed(2)}'
+                                              : '\$${currentStock.price.toStringAsFixed(2)}',
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontSize: 30,

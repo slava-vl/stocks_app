@@ -9,11 +9,10 @@ import '../../providers/stocks.dart';
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Future.wait([
-      Future.delayed(Duration(seconds: 2)),
-      Provider.of<StocksProvider>(context, listen: false).getData(),
-    ]).then((value) => Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => HomePage())));
+    Future.delayed(Duration(seconds: 2)).then((value) => Future.wait([
+          Provider.of<StocksProvider>(context, listen: false).getData(),
+        ]).then((value) => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomePage()))));
 
     return Scaffold(
       backgroundColor: Colors.black,
