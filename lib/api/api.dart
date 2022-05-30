@@ -47,7 +47,7 @@ abstract class Api {
   static Future<List<News>> getCompanyNews(
       String symbol, String from, String to) async {
     final url = Uri.parse(
-        'https://finnhub.io/api/v1/company-news?symbol=$symbol&from=2022-04-01&to=2022-05-09&token=$apiKey');
+        'https://finnhub.io/api/v1/company-news?symbol=$symbol&from=${DateTime.now().subtract(Duration(days: 7)).toString().split(' ')[0]}&to=${DateTime.now().toString().split(' ')[0]}&token=$apiKey');
 
     try {
       final response = await http.get(url);
