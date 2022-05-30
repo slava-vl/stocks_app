@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../config.dart';
+
 class PageViewIndicator extends StatelessWidget {
-  PageController controller;
-  int numberOfPages;
-  int currentPage;
+  final PageController controller;
+  final int numberOfPages;
+  final int currentPage;
 
   PageViewIndicator({this.controller, this.numberOfPages, this.currentPage});
 
@@ -26,7 +28,7 @@ class PageViewIndicator extends StatelessWidget {
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       color: currentPage == index
-                          ? Color.fromARGB(255, 255, 111, 0)
+                          ? AppColors.orange
                           : Colors.grey.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(10))));
         }));

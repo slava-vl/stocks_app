@@ -38,64 +38,109 @@ class _StockWidgetState extends State<StockWidget> {
                 widget.stock.price *
                 100)
             : 0;
-    return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => DetailsScreen(widget.stock.name))),
-      child: Container(
-        color: Colors.grey.shade900.withOpacity(0.6),
-        margin: const EdgeInsets.all(standartPadding),
-        padding: const EdgeInsets.symmetric(
-            vertical: standartPadding * 0.5, horizontal: standartPadding),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-              child: Text(
-                widget.stock.name,
-                style: TextStyle(fontSize: 20),
-              ),
+    final changeColor = priceChange >= 0
+        ? priceChange > 0
+            ? AppColors.green
+            : AppColors.orange
+        : AppColors.red;
+    return Stack(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            gradient: LinearGradient(
+              colors: [
+                changeColor.withOpacity(0.8),
+                Colors.grey.shade900.withOpacity(0.3)
+              ],
+              stops: [
+                0.1,
+                0.3,
+              ],
+              begin: Alignment.topRight,
+              end: Alignment.center,
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: priceChange.toStringAsFixed(2),
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: priceChange >= 0
-                              ? priceChange > 0
-                                  ? Colors.green
-                                  : Colors.yellow
-                              : Colors.red,
-                        ),
-                      ),
-                      WidgetSpan(
-                          child: Icon(
-                        priceChange >= 0
-                            ? Icons.arrow_circle_up
-                            : Icons.arrow_circle_down,
-                        color: priceChange >= 0
-                            ? priceChange > 0
-                                ? Colors.green
-                                : Colors.yellow
-                            : Colors.red,
-                      ))
-                    ],
+          ),
+          height: 100,
+          margin: const EdgeInsets.all(standartPadding),
+          padding: const EdgeInsets.symmetric(
+            vertical: standartPadding * 0.5,
+            horizontal: standartPadding,
+          ),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(
+                      top: standartPadding, left: standartPadding),
+                  alignment: Alignment.topLeft,
+                  child: Text(
+                    widget.stock.name,
+                    style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
-                Text(widget.stock.lastPrice != null
-                    ? widget.stock.lastPrice.toStringAsFixed(2) + ' \$'
-                    : widget.stock.price != null
-                        ? widget.stock.price.toStringAsFixed(2) + ' \$'
-                        : '0.0')
-              ],
-            )
-          ],
+              ),
+              Container(
+                padding: const EdgeInsets.only(
+                    bottom: standartPadding, right: standartPadding),
+                alignment: Alignment.bottomRight,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: priceChange.toStringAsFixed(2) + '%',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: changeColor,
+                            ),
+                          ),
+                          WidgetSpan(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: standartPadding * 0.4,
+                                  left: standartPadding * 0.4),
+                              child: Image.asset(
+                                priceChange >= 0
+                                    ? 'assets/images/row_up.png'
+                                    : 'assets/images/row_down.png',
+                                width: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      widget.stock.lastPrice != null
+                          ? widget.stock.lastPrice.toStringAsFixed(2) + ' \$'
+                          : widget.stock.price != null
+                              ? widget.stock.price.toStringAsFixed(2) + ' \$'
+                              : '0.0',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
+        InkWell(
+          highlightColor: changeColor,
+          onTap: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => DetailsScreen(widget.stock.name))),
+          child: SizedBox(
+            height: 100,
+            width: double.infinity,
+          ),
+        )
+      ],
     );
   }
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:volga_it_otbor/providers/filter_bar_service.dart';
+
+import '/providers/filter_bar_service.dart';
+import '../../../config.dart';
 
 class FilterBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(standartPadding*2),
       child: Consumer<FilterBarService>(
         builder: (context, filterBarService, child) {
           return Column(
@@ -25,7 +27,7 @@ class FilterBar extends StatelessWidget {
                           style: TextStyle(
                               color: filterBarService.filterBarItems[index] ==
                                       filterBarService.selectedFilter
-                                  ? Color.fromARGB(255, 255, 111, 0)
+                                  ? AppColors.orange
                                   : Colors.white,
                               fontWeight: FontWeight.bold),
                         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../models/company.dart';
-import '../details_screen.dart';
 import 'company_news_list.dart';
 import 'header.dart';
 import 'main_information_widget.dart';

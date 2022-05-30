@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter/widgets.dart';
-import 'package:volga_it_otbor/models/market_news_model.dart';
-import 'package:volga_it_otbor/models/news.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../apiKey.dart';
+import '../models/market_news_model.dart';
+import '../models/news.dart';
 import '../models/company.dart';
-import '../config.dart';
 
 class Api {
   static WebSocketChannel connectToStockSocket() {

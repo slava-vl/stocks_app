@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:volga_it_otbor/api/api.dart';
-import 'package:volga_it_otbor/models/company.dart';
 
+import '../../api/api.dart';
+import '../../models/company.dart';
 import 'components/body.dart';
 
 class DetailsScreen extends StatelessWidget {

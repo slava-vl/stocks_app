@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:volga_it_otbor/models/stock.dart';
 
+import '../../../models/stock.dart';
+import '../../../config.dart';
 import '../../../providers/stocks.dart';
 import 'page_view_indicator.dart';
 
@@ -64,20 +65,22 @@ class _StocksPagerState extends State<StocksPager> {
                               Image.asset('assets/images/BG.png'),
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.all(20),
+                                  padding: const EdgeInsets.all(standartPadding*2),
                                   child: Row(
                                     children: [
                                       Text(
                                         currentStock.name,
                                         style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 40,
-                                            fontWeight: FontWeight.w900),
+                                          fontFamily: 'Poppins',
+                                          fontSize: 40,
+                                          fontWeight: FontWeight.w900,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                       Spacer(),
                                       Container(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 10, vertical: 5),
+                                            horizontal: standartPadding, vertical: standartPadding/2),
                                         decoration: BoxDecoration(
                                             color: currentStock.lastPrice !=
                                                         null &&
@@ -85,8 +88,8 @@ class _StocksPagerState extends State<StocksPager> {
                                                         null &&
                                                     currentStock.lastPrice >
                                                         currentStock.price
-                                                ? Color.fromARGB(255, 0, 199, 7)
-                                                : Colors.red,
+                                                ? AppColors.green
+                                                : AppColors.red,
                                             borderRadius:
                                                 BorderRadius.circular(20)),
                                         child: Text(
@@ -100,7 +103,8 @@ class _StocksPagerState extends State<StocksPager> {
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontSize: 30,
-                                              fontWeight: FontWeight.w900),
+                                              fontWeight: FontWeight.w900,
+                                              color: Colors.white),
                                         ),
                                       ),
                                     ],

@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/widgets.dart';
-import 'package:volga_it_otbor/api/api.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../api/api.dart';
+import '../apiKey.dart';
 import '../models/stock.dart';
-import '../config.dart';
 
 class StocksProvider with ChangeNotifier {
   WebSocketChannel _channel;

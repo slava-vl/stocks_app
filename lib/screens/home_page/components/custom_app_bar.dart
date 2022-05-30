@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../../config.dart';
+
 class CustomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: standartPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -17,7 +19,7 @@ class CustomAppBar extends StatelessWidget {
             ),
             child: IconButton(
               onPressed: () {},
-              icon: Icon(Icons.settings_outlined),
+              icon: Icon(Icons.settings_outlined, color: Colors.white),
             ),
           ),
           Container(
@@ -29,8 +31,8 @@ class CustomAppBar extends StatelessWidget {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: [
-                      Color.fromARGB(255, 255, 173, 59),
-                      Color.fromARGB(255, 255, 47, 0)
+                      AppColors.orange,
+                      AppColors.red,
                     ])),
             child: Container(
               decoration: BoxDecoration(
@@ -55,7 +57,10 @@ class CustomAppBar extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.notifications_outlined),
+                  icon: Icon(
+                    Icons.notifications_outlined,
+                    color: Colors.white,
+                  ),
                 ),
               ),
               Positioned(
@@ -65,7 +70,7 @@ class CustomAppBar extends StatelessWidget {
                   width: 12,
                   height: 12,
                   decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 47, 0),
+                      color: AppColors.red,
                       border: Border.all(color: Colors.black, width: 2),
                       borderRadius: BorderRadius.circular(20)),
                 ),

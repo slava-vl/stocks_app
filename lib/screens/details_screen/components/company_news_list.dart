@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:volga_it_otbor/api/api.dart';
 
+import '../../../api/api.dart';
 import '../../../models/news.dart';
 import 'news_card.dart';
 
