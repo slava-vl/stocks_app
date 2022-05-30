@@ -4,7 +4,7 @@ import 'package:volga_it_otbor/providers/filter_bar_service.dart';
 import 'package:volga_it_otbor/providers/market_news_service.dart';
 
 import './providers/stocks.dart';
-import 'screens/splach_screen.dart';
+import 'screens/splash_screen/splach_screen.dart';
 
 void main() => runApp(MyApp());
 

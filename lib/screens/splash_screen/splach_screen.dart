@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:volga_it_otbor/screens/home_page/home_page.dart';
 
-import '../config.dart';
-import '../providers/stocks.dart';
+import '../../config.dart';
+import '../../providers/stocks.dart';
 
 class SplashScreen extends StatelessWidget {
   @override
