@@ -14,42 +14,42 @@ class Background extends StatelessWidget {
     return Stack(
       children: [
         Align(
-          alignment: Alignment(-1.1, -0.8),
+          alignment: Alignment(-1.2, -0.90),
           child: Container(
-            height: deviceSize.height * 0.1,
-            width: deviceSize.width * 0.1,
+            height: deviceSize.height * 0.2,
+            width: deviceSize.width * 0.3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(80.0),
               gradient: RadialGradient(
-                radius: 3,
+                radius: 0.5,
                 colors: [AppColors.backgroundYellow, AppColors.black],
               ),
             ),
           ),
         ),
         Align(
-          alignment: Alignment(1.2, 0.6),
+          alignment: Alignment(1.5, 0.8),
           child: Container(
-            height: deviceSize.height * 0.2,
-            width: deviceSize.width * 0.2,
+            height: deviceSize.height * 0.4,
+            width: deviceSize.width * 0.4,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(80.0),
               gradient: RadialGradient(
-                radius: 5,
+                radius: 0.5,
                 colors: [AppColors.backgroundGreen, AppColors.black],
               ),
             ),
           ),
         ),
         Align(
-          alignment: Alignment(-1.2, 0.8),
+          alignment: Alignment(-2, 1.3),
           child: Container(
-            height: deviceSize.height * 0.2,
-            width: deviceSize.width * 0.2,
+            height: deviceSize.height * 0.5,
+            width: deviceSize.width * 0.5,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(80.0),
               gradient: RadialGradient(
-                radius: 3,
+                radius: 0.5,
                 colors: [AppColors.backgroundRed, AppColors.black],
               ),
             ),

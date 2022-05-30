@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:volga_it_otbor/background.dart';
 import 'package:volga_it_otbor/screens/home_page/home_page.dart';
 
 import '../../config.dart';
@@ -14,26 +15,26 @@ class SplashScreen extends StatelessWidget {
     ]).then((value) => Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => HomePage())));
 
-    return Stack(
-      children: [
-        Container(color: Color.fromARGB(255, 48, 48, 48)),
-        const Align(
-          alignment: Alignment.center,
-          child: Icon(Icons.monetization_on_outlined, color: AppColors.orange, size: 80),
-
-        ),
-        Align(
-          alignment: Alignment.center,
-          child: SizedBox(
-            width: 90,
-            height: 90,
-            child: CircularProgressIndicator(
-              color: AppColors.orange,
-              strokeWidth: 5,
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Background(
+        child: Column(
+          children: [
+            Expanded(
+              child: Image.asset(
+                'assets/images/emblem.png',
+                width: 80,
+              ),
             ),
-          ),
-        )
-      ],
+            SizedBox(
+              child: LinearProgressIndicator(
+                color: AppColors.orange,
+                backgroundColor: AppColors.backgroundRed,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
