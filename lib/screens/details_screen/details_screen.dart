@@ -31,7 +31,7 @@ class DetailsScreen extends StatelessWidget {
         ),
         title: Text(
           symbol,
-          style: new TextStyle(
+          style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
             color: AppColors.orange,

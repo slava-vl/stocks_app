@@ -71,7 +71,7 @@ class MainInformation extends StatelessWidget {
                 createTextInfo('Finnhub Industry', _company.finnhubIndustry),
                 createTextInfo('IPO', _company.ipo),
                 createTextInfo('Market Capitalization',
-                    _company.marketCapitalization.toString() + ' \$'),
+                    '${_company.marketCapitalization} \$'),
                 createTextInfo('Phone', _company.phone),
                 createTextInfo(
                     'Share Outstanding', _company.shareOutstanding.toString()),

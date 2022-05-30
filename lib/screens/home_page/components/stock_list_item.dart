@@ -96,7 +96,7 @@ class _StockWidgetState extends State<StockWidget> {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: priceChange.toStringAsFixed(2) + '%',
+                            text: '${priceChange.toStringAsFixed(2)}%',
                             style: TextStyle(
                               fontSize: 25,
                               color: changeColor,
@@ -124,9 +124,9 @@ class _StockWidgetState extends State<StockWidget> {
                     ),
                     Text(
                       widget.stock.lastPrice != null
-                          ? widget.stock.lastPrice.toStringAsFixed(2) + ' \$'
+                          ? '${widget.stock.lastPrice.toStringAsFixed(2)} \$'
                           : widget.stock.price != null
-                              ? widget.stock.price.toStringAsFixed(2) + ' \$'
+                              ? '${widget.stock.price.toStringAsFixed(2)} \$'
                               : '0.0',
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     )

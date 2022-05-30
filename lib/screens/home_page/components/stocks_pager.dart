@@ -94,12 +94,10 @@ class _StocksPagerState extends State<StocksPager> {
                                                 BorderRadius.circular(20)),
                                         child: Text(
                                           currentStock.lastPrice != null
-                                              ? '\$' +
-                                                  currentStock.lastPrice
-                                                      .toStringAsFixed(2)
-                                              : '\$' +
-                                                  currentStock.price
-                                                      .toStringAsFixed(2),
+                                              ? '\$${currentStock.lastPrice
+                                                      .toStringAsFixed(2)}'
+                                              : '\$${currentStock.price
+                                                      .toStringAsFixed(2)}',
                                           style: TextStyle(
                                               fontFamily: 'Poppins',
                                               fontSize: 30,

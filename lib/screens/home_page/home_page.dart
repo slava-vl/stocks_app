@@ -12,8 +12,6 @@ import 'components/custom_app_bar.dart';
 import 'components/stock_list.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage();
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -53,7 +51,10 @@ class _HomePageState extends State<HomePage> {
                       child: Consumer<FilterBarService>(
                         builder: (context, filterService, child) =>
                             filterService.selectedFilter == 'Most Popular'
-                                ? StockList(stocks: Provider.of<StocksProvider>(context).prices,)
+                                ? StockList(
+                                    stocks: Provider.of<StocksProvider>(context)
+                                        .prices,
+                                  )
                                 : MarketNews(),
                       ),
                     ),
